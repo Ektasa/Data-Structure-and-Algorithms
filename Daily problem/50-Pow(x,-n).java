@@ -1,17 +1,35 @@
 class Solution {
+
     public double myPow(double x, int n) {
-        if(n<0 || x<0)
-        {
-            n=-n; x=1/x;
+
+        // long handles Integer.MIN_VALUE safely
+        long N = Math.abs((long) n);
+
+        double ans = recursion(x, N);
+
+        // x^-n = 1 / x^n
+        return n < 0 ? 1 / ans : ans;
+    }
+
+    public double recursion(double x, long n) {
+
+        // Base case
+        if (n == 0) {
+            return 1;
         }
-        double res=1;
-       while(n!=0)
-        {
-            if((n&1) !=0)
-           { res=res*x; }
-            x*=x;
-            n>>>=1;
+
+        // Reduce problem size by half
+        double temp = recursion(x, n / 2);
+
+        if (n % 2 == 0) {
+
+            // x^n = x^(n/2) × x^(n/2)
+            return temp * temp;
+
+        } else {
+
+            // x^n = x × x^(n/2) × x^(n/2)
+            return x * temp * temp;
         }
-        return res;
     }
 }
