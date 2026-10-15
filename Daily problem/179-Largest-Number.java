@@ -7,7 +7,12 @@ class Solution {
             s[i]=String.valueOf(nums[i]);
         }
         Arrays.sort(s,(a,b)->(b+a).compareTo(a+b));
-        
-       return s[0].equals("0")?"0": String.join("",s);
+        if(s[0].equals("0"))
+        {return "0";}
+        for(int i=0;i<s.length;i++)
+        {
+            str.append(s[i]);
+        }
+       return str.toString();
     }
 }
