@@ -1,24 +1,28 @@
 class Solution {
     public List<List<Integer>> combine(int n, int k) {
-        List<List<Integer>> res=new ArrayList<>();
-        List<Integer> comb=new ArrayList<>();
-        backtrack(1,comb, res, n, k);
-        return res;
+
+        List<List<Integer>> list=new ArrayList<List<Integer>>();
+        List<Integer> ll=new ArrayList<Integer>();
+     backtrack(1,n,k,list,ll);
+
         
+        return list;
     }
 
-    private void backtrack(int start, List<Integer> comb, List<List<Integer>> res, int n , int k)
+    public List<List<Integer>> backtrack(int st, int n, int k,List<List<Integer>> res, List<Integer> addr)
     {
-        if(comb.size()==k)
+        if(addr.size()==k)
         {
-            res.add(new ArrayList<>(comb));
-            return;
+            res.add(new ArrayList<>(addr));
+            return res;
         }
-        for(int num=start;num<=n;num++)
+        int r=k-addr.size();
+        for(int i=st;i<=n-r+1;i++)
         {
-            comb.add(num);
-            backtrack(num+1, comb, res, n, k);
-            comb.remove(comb.size()-1);
+            addr.add(i);
+            backtrack(i+1,n,k,res,addr);
+            addr.remove(addr.size()-1);
         }
+        return res;
     }
 }
