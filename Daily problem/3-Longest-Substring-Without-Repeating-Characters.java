@@ -5,25 +5,40 @@ class Solution {
         int high=0; int low=0;
         int n=s.length(); int res=0;
         HashSet<Character> hash=new HashSet<>();
-        while(high<n)
-        {
 
-           if(!hash.contains(s.charAt(high)))
-           {
-           
-           hash.add(s.charAt(high));
-         res=Math.max(res,high-low+1);
-           }
-            else{
-                while(hash.contains(s.charAt(high)))
+            char[] chars=s.toCharArray();
+
+            for(int i=0;i<chars.length;i++)
             {
-               hash.remove(s.charAt(low));
-               low++;
+                while(hash.contains(chars[i]))
+                {
+                    hash.remove(chars[high]);
+                    high++;
+                }
+
+                hash.add(chars[i]);
+                res=Math.max(res, hash.size());
             }
-            hash.add(s.charAt(high));}
+
+        // while(high<n)
+        // {
+
+        //    if(!hash.contains(s.charAt(high)))
+        //    {
            
-          high++;
-        }
-        return res;
+        //    hash.add(s.charAt(high));
+        //  res=Math.max(res,high-low+1);
+        //    }
+        //     else{
+        //         while(hash.contains(s.charAt(high)))
+        //     {
+        //        hash.remove(s.charAt(low));
+        //        low++;
+        //     }
+        //     hash.add(s.charAt(high));}
+           
+        //   high++;
+        // }
+         return res;
     }
 }
