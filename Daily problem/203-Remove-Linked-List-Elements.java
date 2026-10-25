@@ -19,9 +19,8 @@ class Solution {
             while(cur.next!=null && cur.next.val==val)
             {
                cur.next=cur.next.next;
-                //dummy.next=cur;
+               
             }
-           // dummy.next=cur;
             cur=cur.next;
         }
         return dummy.next;
