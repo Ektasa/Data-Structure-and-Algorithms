@@ -1,34 +1,42 @@
 class Solution {
-    public int minExtraChar(String s, String[] dictionary) {
-        int len=s.length();
-        int dp[]=new int[len];
-        Arrays.fill(dp,-1);
-        Set<String> nm=new HashSet<>();
-        for(String k:dictionary)
-        {
-            nm.add(k);
-        }
-        return task(dp,s,len,0,nm);
+    static class TrieNode{
+        TrieNode[] ch =new TrieNode[26];
+        boolean isW=false;
     }
-    public int task(int dp[], String s, int len, int ind, Set<String> nm)
-    {
-        if(ind==len)
-        {
-            return 0;
+    private void insert(TrieNode root, String word){
+        TrieNode node = root;
+        for(char c:word.toCharArray()){
+            int idx = c -'a';
+            if(node.ch[idx]==null){
+                node.ch[idx]=new TrieNode();
+            }
+            node =node.ch[idx];
         }
-        if(dp[ind]!=-1)
-        {
-            return dp[ind];
+        node.isW=true;
+    }
+    public int minExtraChar(String s, String[] dictionary) {
+        //trie approach 
+        int n = s.length();
+        TrieNode root = new TrieNode();
+        for(String word:dictionary){
+            insert(root,word);
         }
-        StringBuilder k=new StringBuilder();
-        int ans=len;
-        for(int point=ind;point<len;point++)
-        {
-            k.append(s.charAt(point));
-            int val=nm.contains(k.toString()) ? 0 : k.length();
-            int val1=task(dp,s,len,point+1,nm);
-            ans=Math.min(ans,val+val1);
+        int dp[] = new int[n+1];
+        for(int i=n-1;i>=0;i--){
+            dp[i]=dp[i+1]+1;
+            TrieNode node = root;
+            for(int j =i;j<n;j++){
+                int idx = s.charAt(j)-'a';
+                if(node.ch[idx]==null){
+                    break;
+                }
+                node = node.ch[idx];
+                if(node.isW){
+                    dp[i]= Math.min(dp[i],dp[j+1]);
+                }
+            }
         }
-        return dp[ind]=ans;
+        return dp[0];
+
     }
 }
